@@ -1,9 +1,9 @@
 -- Definicion de tablas ---------------------------------------------------------------------------
 create table usuario(
-	idUsuario int primary key,
+	idUsuario auto_increment int primary key,
     nombre varchar(50) not null,
     correo varchar(50) not null unique,
-    profesion enum("estudiante", "admin", "docente", "servicios")
+    profesion enum("estudiante", "admin", "docente", "servicios") not null
 );
 
 create table telefono_usuario(
@@ -13,12 +13,12 @@ create table telefono_usuario(
 );
 
 create table tipo_tramite(
-	idTipo int primary key,
+	idTipo auto_increment int primary key,
     tipo varchar(50) not null
 );
 
 create table unidad(
-	idUnidad int primary key,
+	idUnidad auto_increment int primary key,
     nombre varchar(50) not null unique
 );
 
@@ -29,7 +29,7 @@ create table telefono_unidad(
 );
 
 create table tramite(
-	idTramite int primary key,
+	idTramite auto_increment int primary key,
     descripcion varchar(50) not null,
     normativa varchar(50) not null,
     monto decimal(10, 2),
@@ -43,7 +43,7 @@ create table tramite(
 );
 
 create table documento(
-	idDocumento int primary key,
+	idDocumento auto_increment int primary key,
     archivoURL varchar(50) not null,
     estado enum("activo", "inactivo") not null,
     idTramite int not null,
@@ -51,7 +51,7 @@ create table documento(
 );
 
 create table solicitud(
-	idSolicitud int primary key,
+	idSolicitud auto_increment int primary key,
     estado enum("pendiente", "en proceso", "completado", "cancelado") not null,
     fechaGeneracion datetime not null default now(),
     idUsuario int not null,
@@ -61,15 +61,16 @@ create table solicitud(
 );
 
 create table recibo (
-	idRecibo int primary key,
+	idRecibo auto_increment int primary key auto_increment,
     documentoURL varchar(50) not null,
     fechaGeneracion date not null default (CURRENT_DATE + INTERVAL 1 YEAR),
+    monto decimal(10, 2) not null,
     idSolicitud int not null,
     foreign key (idSolicitud) references solicitud(idSolicitud)
 );
 
 create table adjunto(
-	idAdjunto int primary key,
+	idAdjunto auto_increment int primary key,
     documentoURL varchar(100) not null,
     idSolicitud  int not null,
     tipo enum('documento personal', 'recibo de pago', 'documento universidad'),
@@ -77,7 +78,7 @@ create table adjunto(
 );
 
 create table comentario(
-	idComentario int primary key auto_increment,
+	idComentario auto_increment int primary key,
     texto varchar(100) not null,
     mediaURL varchar(100),
     idSolicitud int not null,
@@ -99,8 +100,8 @@ create table log_usuario (
 );
 -- ---------------------------------------------------------------------------------------------
 -- Insercion de datos --------------------------------------------------------------------------
-INSERT INTO usuario (idUsuario, nombre, correo, profesion)
-VALUES 
+insert into usuario (idUsuario, nombre, correo, profesion)
+values 
 (1, "Ana", "ana@email.com", "Estudiante"),
 (2, "Carlos", "carlos@email.com", "Admin"),
 (3, "Elena", "elena@email.com", "Docente"),
@@ -111,8 +112,8 @@ VALUES
 (8, "Inés", "ines@email.com", "Servicios"),
 (9, "Daniel", "daniel@mail.com", "admin");
 
-INSERT INTO telefono_usuario (telefono, idUsuario)
-VALUES
+insert into telefono_usuario (telefono, idUsuario)
+values
 ("1234567890", 1),
 ("9876543210", 2),
 ("5551234567", 3),
@@ -123,8 +124,8 @@ VALUES
 ("3334445555", 7),
 ("7771112222", 8);
 
-INSERT INTO unidad (idUnidad, nombre)
-VALUES
+insert into unidad (idUnidad, nombre)
+values
 (101, "Registro Académico"),
 (102, "Recursos Humanos"),
 (103, "Biblioteca"),
@@ -132,8 +133,8 @@ VALUES
 (105, "Gestion TI"),
 (106, "Departamento caja");
 
-INSERT INTO telefono_unidad (telefono, idUnidad)
-VALUES
+insert into telefono_unidad (telefono, idUnidad)
+values
 ("5559998888", 101),
 ("7774443333", 102),
 ("1234567890", 103),
@@ -142,8 +143,8 @@ VALUES
 ("4445556666", 105),
 ("2223334444", 106);
 
-INSERT INTO tipo_tramite (idTipo, tipo)
-VALUES
+insert into tipo_tramite (idTipo, tipo)
+values
 (1, "Matrícula"),
 (2, "Permiso"),
 (3, "Certificación"),
@@ -151,22 +152,22 @@ VALUES
 (5, "Solicitud"),
 (6, "Consulta");
 
-INSERT INTO tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario, esPago, monto)
-VALUES
+insert into tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario, esPago, monto)
+values
 (201, "Inscripción", "Reglamento X", 1, 101, 6, true, 4000000),
 (204, "Reembolso", "Política A", 4, 104, 9, true, 100000),
 (208, "Solicitud de beca parqueaderos uao", "Normativa 420", 5, 104, 9, true, 2500000);
 
-INSERT INTO tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario, esPago)
-VALUES
+insert into tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario, esPago)
+values
 (202, "Permiso de ausencia", "Norma Y", 2, 102, 2, false),
 (203, "Certificado de notas", "Procedimiento Z", 3, 103, 6, false),
 (205, "Permiso de vacaciones", "Reglamento B", 5, 105, 6, false),
 (206, "Consulta de horarios", "Procedimiento C", 6, 106, 6, false),
 (207, "Resevar salon 2001", "Norma z", 2, 102, 9, false);
 
-INSERT INTO documento (idDocumento, archivoURL, estado, idTramite)
-VALUES
+insert into documento (idDocumento, archivoURL, estado, idTramite)
+values
 (301, "https://uao.documentos.com/inscripcion.pdf", "activo", 201),
 (302, "https://uao.documentos.com/licencia_ausencia.pdf", "inactivo", 202),
 (303, "https://uao.documentos.com/notasPlantilla.pdf", "activo", 203),
@@ -175,8 +176,8 @@ VALUES
 (306, "https://uao.lineaRoja.com/horario.pdf", "activo", 206),
 (308, "https://uao.portal.com/becaValidacion.pdf", "activo", 206);
 
-INSERT INTO solicitud (idSolicitud, estado, fechaGeneracion, idUsuario, idTramite)
-VALUES
+insert into solicitud (idSolicitud, estado, fechaGeneracion, idUsuario, idTramite)
+values
 (401, "pendiente", "2020-03-15 6:00:00", 1, 201),
 (402, "en proceso", "2020-04-21 15:30:00", 2, 202),
 (403, "completado", "2022-07-02 9:15:00",3, 203),
@@ -189,11 +190,11 @@ VALUES
 (410, "en proceso", "2024-01-29 8:15:00",5, 208),
 (411, "cancelado", "2024-01-29 8:45:00",5, 208),
 (412, "en proceso", "2024-02-22 8:20:00",7, 205),
-(413, "completado", "2023-01-15 7:00:00",1, 201);
+(413, "completado", "2023-01-15 7:00:00",1, 201),
+(414, "completado", "2024-03-15 8:00:00",1, 206);
 
-
-INSERT INTO adjunto (idAdjunto, documentoURL, idSolicitud, tipo)
-VALUES
+insert into adjunto (idAdjunto, documentoURL, idSolicitud, tipo)
+values
 (501, "https://recursos.estudiante.com/certificadoNotas.pdf", 401, 'recibo de pago'),
 (502, "https://recursos.admin.com/cedulaColaborador.pdf", 402, 'documento personal'),
 (503, "https://recursos.estudiante.com/recibos/parqBeca.pdf", 403, 'recibo de pago'),
@@ -204,15 +205,15 @@ VALUES
 (508, "uao.docente/cedulaCiudadania.jpg", 412, 'documento personal'),
 (509, "uao.estudiante/certificadoBachillerato.png", 413, 'documento personal');
 
-insert into recibo (idRecibo, documentoURL, fechaGeneracion, idSolicitud) 
+insert into recibo (documentoURL, fechaGeneracion, monto, idSolicitud) 
 values
-(1, "uao.com/notasRecibo.pdf", "2024-01-30", 403),
-(2, "uao.becas.com/ReembolsoMonto.pdf", "2024-01-30", 404),
-(3, "uao.becas.com/reciboBeca.pdf", "2024-01-30", 406),
-(4, "uao.becas.com/becaValor.pdf", "2024-01-30", 407),
-(5, "uao.becas.com/valorBeca.pdf", "2024-01-30", 408),
-(6, "uao.becas.com/becaPago.pdf", "2024-01-30", 409),
-(7, "uao.becas.com/pagoBeca.pdf", "2024-01-30", 410);
+("uao.com/notasRecibo.pdf", "2024-01-30", 40000, 403),
+("uao.becas.com/ReembolsoMonto.pdf", "2024-01-30", 2500000, 404),
+("uao.becas.com/reciboBeca.pdf", "2024-01-30", 3000000,406 ),
+("uao.becas.com/becaValor.pdf", "2024-01-30", 3000000,407),
+("uao.becas.com/valorBeca.pdf", "2024-01-30", 3000000, 408),
+("uao.becas.com/becaPago.pdf", "2024-01-30", 3000000, 409),
+("uao.becas.com/pagoBeca.pdf", "2024-01-30", 3000000, 410);
 
 
 insert into comentario (texto, mediaURL, idSolicitud, idUsuario) values ("Todo en orden", "https://example.com/comment1.jpg", 401, 1);
@@ -227,30 +228,12 @@ values
 
 -- Creacion de vistas---------------------------------------------------------------------------
 
--- Obtiene la unidad que mas ingresos ha generado 
--- create view max_monto_unidad as
--- 	select sum(r.monto) as monto_total_unidad , u.nombre as unidad from recibo as r 
--- 	join solicitud using (idSolicitud)
--- 	join tramite using (idTramite)
--- 	join unidad as u using (idUnidad) 
--- 	group by u.nombre
--- 	order by monto_total_unidad desc
---  limit 1;
-
 -- Obtiene toda la informacion de las solicitudes
 create view info_solicitud as
 	select u.idUsuario, s.idSolicitud, u.nombre as usuario, s.estado, s.fechaGeneracion, tp.tipo, t.descripcion, t.normativa 
 	from usuario as u join solicitud as s using (idUsuario) 
 	join tramite as t using(idTramite) 
 	join tipo_tramite as tp using(idTipo);
-
--- Obtiene el tramite mas solicitado
--- create view tipo_tramite_mas_solicitado as 
--- 	select r.tipo as tramite_mas_repetido, count(*) as solicitudes_realizadas
--- 	from info_solicitud as r 
--- 	group by r.tipo
--- 	order by solicitudes_realizadas desc
---  limit 1;
 
 -- Obtiene las solicitudes con mas tiempo en proceso o pendiente
 create view solicitudes_mas_demoradas as
@@ -273,7 +256,28 @@ begin
  return montoConIva;
 end //
 DELIMITER ;
--- select calcularIva(100000.00);
+
+-- Procedures -----------------------------------------------------------------------------------------------------
+
+-- Consultar Trámites Activos de Usuario
+DELIMITER //
+create procedure ConsultarTramitesActivosDeUsuario(in idUsuario int)
+begin
+    select
+        t.idTramite as ID_tramite,
+        tt.tipo as TipoTramite,
+        t.descripcion as Descripcion,
+        u.nombre as UnidadResponsable,
+        s.estado as Estado
+    from tramite as t join tipo_tramite as tt using(idTipo)
+    join unidad u using(idUnidad)
+    join solicitud s using(idTramite)
+    where s.idUsuario = idUsuario
+        and s.estado in ('pendiente', 'en proceso');
+end //
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------------------------------------------
 
 -- Triggers -------------------------------------------------------------------------------------------------------
 
@@ -289,12 +293,58 @@ begin
   insert into comentario (texto, mediaURL, idSolicitud, idUsuario) values ("Acabamos de agregar un recibo a tu solicitud, por favor revisa tu portal uao!", new.documentoURL, new.idSolicitud, idFuncionario);
 end; //
 DELIMITER ;
--- insert into recibo values (8, "portalMatricula.uao.com/reciboMatricula.pdf", "2024-01-30", 3000000.00, 413);
 
+-- Trigger para modificar la solicitud dependiendo del adjunto que se agregue
 DELIMITER //
+create trigger modificarSolicitud after insert on adjunto
+for each row
+begin
+  if new.tipo = 'documento personal' then
+	update solicitud set estado = 'en proceso' where idSolicitud = new.idSolicitud;
+  elseif new.tipo = 'recibo de pago' then 
+	update solicitud set estado = 'pendiente' where idSolicitud = new.idSolicitud;
+  else
+    update solicitud set estado = 'completado' where idSolicitud = new.idSolicitud;
+  end if;
+end //
+DELIMITER ;
+
+-- Trigger para actualizar la solicitud a cancelado cuando el documento del tramite se inactive
+DELIMITER //
+create trigger actualizarSolicitudPorDocumento after update on documento
+for each row
+begin
+	declare solicitudId int;
+	select idSolicitud into solicitudId from solicitud 
+    join tramite using (idTramite)
+    join documento using (idTramite) 
+    where idDocumento = new.idDocumento;
+	if new.estado = 'inactivo' then
+		update solicitud set estado = 'cancelado' where idSolicitud = solicitudId;
+	end if;
+end //
+DELIMITER ;
+
+-- Trigger para generar un recibo cuando se cree una solicitud para un tramite con pago
+DELIMITER //
+create trigger validarTramitePago before insert on recibo
+for each row 
+begin
+	declare esTramitePago bool;
+    select t.esPago into esTramitePago from solicitud as s
+    join tramite as t using (idTramite)
+    where s.idSolicitud = new.idSolicitud;
+    if esTramitePago = false then 
+		signal
+		sqlstate '45000'
+        set message_text = 'No se puede agregar un recibo a esta solicitud, ya que el tramite no requiere pagos.';
+	end if;
+end //
+DELIMITER ;
+
 -- Trigger de Validación de Correo Electrónico
-create trigger validarCorreo
-before insert on usuario
+DELIMITER //
+create trigger validarCorreo before insert on usuario
 for each row
 begin
   -- Verificar formato de correo electrónico
@@ -303,12 +353,11 @@ begin
   end if;
 end //
 DELIMITER ;
--- insert into usuario values (15, "david barreto", "david.com", "estudiante");
 
 -- Trigger que valida si el usuario que intenta crear el tramite es admin
 DELIMITER //
-create trigger validarAdmin 
-before insert on tramite for each row
+create trigger validarAdmin before insert on tramite 
+for each row
 begin
     declare rol varchar(10);
     select profesion into rol from usuario where idUsuario = new.idUsuario;
@@ -319,12 +368,11 @@ begin
 	end if;
 end; //
 DELIMITER ;
--- insert into tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario) values (220, 'Tramite de prueba', 'ley 100', 7, 102, 1);
 
 -- Trigger para que no se ingresen mas comentarios en una solicitud cancelada o completada
 DELIMITER //
-create trigger validarSolicitud 
-before insert on comentario for each row
+create trigger validarSolicitud before insert on comentario 
+for each row
 begin
     declare estadoSolicitud enum('pendiente', 'en proceso', 'completado', 'cancelado');
     select estado into estadoSolicitud from solicitud where idSolicitud = new.idSolicitud;
@@ -335,26 +383,6 @@ begin
 	end if;
 end; //
 DELIMITER ;
-insert into comentario (texto, idSolicitud, idUsuario )values ("texto de ejemplo", 411, 9);
-
--- Trigger para calcular el valor final del recibo con iva antes de insertar un recibo
--- DELIMITER //
--- create trigger calcularImpuestos before insert on recibo
--- for each row
--- begin
--- 	set new.monto = new.monto + (new.monto * (19 /100));
- 	-- select r.idRecibo as nuevoRecibo, a.tipo, calcularIva(r.monto) as montoConIva from recibo as r
- 	-- join solicitud using(idSolicitud)
- 	-- join adjunto as a using(idSolicitud);
- 	-- if a.tipo = 'recibo de pago' then
- 		-- set new.monto = montoConIva;
-    -- elseif a.tipo = 'cuenta de cobro' then
- 		-- set new.monto = montoConIva;
-	-- end if;
--- end; //
--- DELIMITER ;
-
--- insert into recibo values (9, "uao.recibos.com/validacionMatricula.pdf", "2024-01-30", 1000000.00, 413);
 
 -- Triggers para los logs de los usuarios --------------------------------------------------------------------------
 
@@ -382,3 +410,37 @@ begin
 end; //
 DELIMITER ;
 -- -----------------------------------------------------------------------------------------------------------------
+
+-- Casos de prueba -------------------------------------------------------------------------------------------------
+
+-- Funcion para calcular el iva
+-- select calcularIva(100000.00);
+
+-- Procedure que obtiene las solicitudes pendientes de un usuario
+-- call ConsultarTramitesActivosDeUsuario(1);
+
+-- Prueba para trigger que manda un comentario al ingresar un recibo a una solicitud
+-- insert into recibo values (8, "portalMatricula.uao.com/reciboMatricula.pdf", "2024-01-30", 3000000.00, 413);
+
+-- Prueba para trigger que cambia el estado de una solicitud dependiendo del adjunte que se agregue
+-- insert into adjunto values (510, "https://uaoPortal.estudiante.com/documentoConfirmacion.pdf", 401, 'documento universidad');
+
+-- Prueba para trigger que cambia el estado de una solicitud dependiendo del estado del documento del tramite
+-- update documento set estado = 'inactivo' where idDocumento = 306;
+
+-- Prueba para verificar si el tramite si es de pago
+-- insert into recibo (documentoURL, monto, idSolicitud) values ("https://archivoDePrueba", 10000, 402);
+
+-- Prueba para trigger que valida que el correo electronico de un usuario es valido
+-- insert into usuario values (15, "david barreto", "david.com", "estudiante");ç
+
+-- Prueba para trigger que valida que el usuario que ingresa un tramite es admin
+-- insert into tramite (idTramite, descripcion, normativa, idTipo, idUnidad, idUsuario) values (220, 'Tramite de prueba', 'ley 100', 7, 102, 1);
+
+-- Prueba para trigger que valida que no se pueden agregar mas comentarios a una solicitud cancelada o completada
+-- insert into comentario (texto, idSolicitud, idUsuario )values ("texto de ejemplo", 411, 9);
+
+-- Prueba para triggers de logs de la tabla usuario
+-- insert into usuario values (10, "juan jose moncayo", "jjMoncayo@mail.com", "estudiante");
+-- update usuario set nombre = "daniel sanchez" where idUsuario = 9;
+-- delete from usuario where idUsuario = 9;
