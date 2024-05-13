@@ -45,7 +45,7 @@ create table tramite(
 create table documento(
 	idDocumento int primary key auto_increment,
     archivoURL varchar(50) not null,
-    estado enum("activo", "inactivo") not null,
+    estado enum("activo", "inactivo") not null default "activo",
     idTramite int not null,
     foreign key (idTramite) references tramite(idTramite)
 );
