@@ -1,6 +1,6 @@
 -- Definicion de tablas ---------------------------------------------------------------------------
 create table usuario(
-	idUsuario auto_increment int primary key,
+	idUsuario int primary key auto_increment,
     nombre varchar(50) not null,
     correo varchar(50) not null unique,
     profesion enum("estudiante", "admin", "docente", "servicios") not null
@@ -13,12 +13,12 @@ create table telefono_usuario(
 );
 
 create table tipo_tramite(
-	idTipo auto_increment int primary key,
+	idTipo int primary key auto_increment,
     tipo varchar(50) not null
 );
 
 create table unidad(
-	idUnidad auto_increment int primary key,
+	idUnidad int primary key auto_increment,
     nombre varchar(50) not null unique
 );
 
@@ -29,7 +29,7 @@ create table telefono_unidad(
 );
 
 create table tramite(
-	idTramite auto_increment int primary key,
+	idTramite int primary key auto_increment,
     descripcion varchar(50) not null,
     normativa varchar(50) not null,
     monto decimal(10, 2),
@@ -43,7 +43,7 @@ create table tramite(
 );
 
 create table documento(
-	idDocumento auto_increment int primary key,
+	idDocumento int primary key auto_increment,
     archivoURL varchar(50) not null,
     estado enum("activo", "inactivo") not null,
     idTramite int not null,
@@ -51,7 +51,7 @@ create table documento(
 );
 
 create table solicitud(
-	idSolicitud auto_increment int primary key,
+	idSolicitud int primary key auto_increment,
     estado enum("pendiente", "en proceso", "completado", "cancelado") not null,
     fechaGeneracion datetime not null default now(),
     idUsuario int not null,
@@ -61,7 +61,7 @@ create table solicitud(
 );
 
 create table recibo (
-	idRecibo auto_increment int primary key auto_increment,
+	idRecibo int primary key auto_increment,
     documentoURL varchar(50) not null,
     fechaGeneracion date not null default (CURRENT_DATE + INTERVAL 1 YEAR),
     monto decimal(10, 2) not null,
@@ -70,7 +70,7 @@ create table recibo (
 );
 
 create table adjunto(
-	idAdjunto auto_increment int primary key,
+	idAdjunto int primary key auto_increment,
     documentoURL varchar(100) not null,
     idSolicitud  int not null,
     tipo enum('documento personal', 'recibo de pago', 'documento universidad'),
@@ -78,7 +78,7 @@ create table adjunto(
 );
 
 create table comentario(
-	idComentario auto_increment int primary key,
+	idComentario int primary key auto_increment,
     texto varchar(100) not null,
     mediaURL varchar(100),
     idSolicitud int not null,

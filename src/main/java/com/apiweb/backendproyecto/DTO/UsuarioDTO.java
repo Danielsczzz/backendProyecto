@@ -14,7 +14,7 @@ import java.util.Map;
 public class UsuarioDTO {
     private Long idUsuario;
     private String nombre;
-    private String email;
+    private String correo;
     private Profesion profesion;
     private List<Map<String,String>> telefonos;
 }
