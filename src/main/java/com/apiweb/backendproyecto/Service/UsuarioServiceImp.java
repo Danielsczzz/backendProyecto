@@ -9,8 +9,7 @@ import java.util.List;
 
 @Service
 public class UsuarioServiceImp implements IUsuarioService{
-    @Autowired
-    IUsuarioRepository usuarioRepository;
+    @Autowired IUsuarioRepository usuarioRepository;
 
     @Override
     public List<UsuarioModel> obtenerUsuarios() {
@@ -22,6 +21,4 @@ public class UsuarioServiceImp implements IUsuarioService{
         usuarioRepository.save(usuario);
         return String.format("El usuario %s ha sido creado con exito", usuario.getNombre());
     }
-
-
 }

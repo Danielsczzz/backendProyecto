@@ -14,7 +14,7 @@ create table telefono_usuario(
 
 create table tipo_tramite(
 	idTipo int primary key auto_increment,
-    tipo varchar(50) not null
+    tipo varchar(50) not null unique
 );
 
 create table unidad(
@@ -32,7 +32,7 @@ create table tramite(
 	idTramite int primary key auto_increment,
     descripcion varchar(50) not null,
     normativa varchar(50) not null,
-    monto decimal(10, 2),
+    costo decimal(10, 2),
     esPago bool not null,
     idTipo int not null,
     idUnidad int not null,

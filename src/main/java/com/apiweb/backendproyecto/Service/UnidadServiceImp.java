@@ -9,17 +9,16 @@ import java.util.List;
 
 @Service
 public class UnidadServiceImp implements IUnidadService {
-    @Autowired
-    IUnidadRepository unidadRepository;
+    @Autowired IUnidadRepository unidadRepository;
+
+    @Override
+    public List<UnidadModel> obtenerUnidades() {
+        return unidadRepository.findAll();
+    }
 
     @Override
     public String crearUnidad(UnidadModel unidad) {
         unidadRepository.save(unidad);
         return String.format("La unidad %s ha sido creado con exito", unidad.getNombre());
-    }
-
-    @Override
-    public List<UnidadModel> obtenerUnidades() {
-        return unidadRepository.findAll();
     }
 }
