@@ -8,10 +8,7 @@ import com.apiweb.backendproyecto.Service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,12 @@ public class UsuarioController {
     @Autowired IUsuarioService usuarioService;
     @Autowired ITelefonoUsuarioService telefonoUsuarioService;
 
-    @PostMapping("/crear")
+    @GetMapping("/")
+    public ResponseEntity<List<UsuarioModel>> obtenerUsuarios(){
+        return new ResponseEntity<>(usuarioService.obtenerUsuarios(), HttpStatus.OK);
+    }
+
+    @PostMapping("/")
     public ResponseEntity<?> crearUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         if (usuarioDTO == null) {
             return new ResponseEntity<String>("Tiene que ingresar un usuario para continuar", HttpStatus.BAD_REQUEST);

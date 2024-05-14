@@ -13,13 +13,15 @@ public class UsuarioServiceImp implements IUsuarioService{
     IUsuarioRepository usuarioRepository;
 
     @Override
+    public List<UsuarioModel> obtenerUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    @Override
     public String crearUsuario(UsuarioModel usuario) {
         usuarioRepository.save(usuario);
         return String.format("El usuario %s ha sido creado con exito", usuario.getNombre());
     }
 
-    @Override
-    public List<UsuarioModel> obtenerUsuarios() {
-        return usuarioRepository.findAll();
-    }
+
 }

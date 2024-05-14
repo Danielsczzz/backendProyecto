@@ -1,20 +1,14 @@
 package com.apiweb.backendproyecto.Controller;
 
 import com.apiweb.backendproyecto.DTO.UnidadDTO;
-import com.apiweb.backendproyecto.DTO.UsuarioDTO;
 import com.apiweb.backendproyecto.Model.TelefonoUnidadModel;
-import com.apiweb.backendproyecto.Model.TelefonoUsuarioModel;
 import com.apiweb.backendproyecto.Model.UnidadModel;
-import com.apiweb.backendproyecto.Model.UsuarioModel;
 import com.apiweb.backendproyecto.Service.ITelefonoUnidadService;
 import com.apiweb.backendproyecto.Service.IUnidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +20,12 @@ public class UnidadController {
     @Autowired IUnidadService unidadService;
     @Autowired ITelefonoUnidadService telefonoUnidadService;
 
-    @PostMapping("/crear")
+    @GetMapping("/")
+    public ResponseEntity<List<UnidadModel>> obtenerUsuarios(){
+        return new ResponseEntity<>(unidadService.obtenerUnidades(), HttpStatus.OK);
+    }
+
+    @PostMapping("/")
     public ResponseEntity<?> crearUnidad(@RequestBody UnidadDTO unidadDTO) {
         if (unidadDTO == null) {
             return new ResponseEntity<String>("Tiene que ingresar una unidad para continuar", HttpStatus.BAD_REQUEST);
