@@ -1,7 +1,6 @@
 package com.apiweb.backendproyecto.Service;
 
 import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
-import com.apiweb.backendproyecto.Model.UnidadModel;
 import com.apiweb.backendproyecto.Model.UsuarioModel;
 import com.apiweb.backendproyecto.Repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

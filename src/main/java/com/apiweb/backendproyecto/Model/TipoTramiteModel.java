@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="telefono_unidad")
+@Table(name="tipo_tramite")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TipoTramiteModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTipo;
 
     @Column(nullable = false, unique = true)

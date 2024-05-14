@@ -19,8 +19,6 @@ public class TramiteServiceImp implements ITramiteService {
     @Override
     public String crearTramite(TramiteModel tramite) {
         tramiteRepository.save(tramite);
-        return String.format("El tramite de tipo %s ha sido creado con exito.", tramite.getIdTipo().getTipo());
+        return "El tramite ha sido creado con exito.";
     }
-
-
 }
