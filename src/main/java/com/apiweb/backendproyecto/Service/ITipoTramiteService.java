@@ -7,4 +7,6 @@ import java.util.List;
 public interface ITipoTramiteService {
     String crearTipoTramite(TipoTramiteModel tipo);
     List<TipoTramiteModel> obtenerTipoTramites();
+    TipoTramiteModel obtenerTipoTramitePorId(Integer id);
+
 }

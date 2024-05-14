@@ -7,4 +7,5 @@ import java.util.List;
 public interface IUsuarioService {
     List<UsuarioModel> obtenerUsuarios();
     String crearUsuario(UsuarioModel usuario);
+    UsuarioModel obtenerUsuarioPorId(Integer id);
 }
