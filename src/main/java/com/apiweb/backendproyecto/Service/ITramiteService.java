@@ -7,4 +7,5 @@ import java.util.List;
 public interface ITramiteService {
     String crearTramite(TramiteModel tramite);
     List<TramiteModel> obtenerTramites();
+    TramiteModel obtenerTramitePorId(int id);
 }
