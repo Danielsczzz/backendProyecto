@@ -24,4 +24,9 @@ public class TipoTramiteController {
     public ResponseEntity<String> crearTipoTramite(@RequestBody TipoTramiteModel tipo) {
         return new ResponseEntity<>(tipoTramiteService.crearTipoTramite(tipo), HttpStatus.OK);
     }
+
+    @GetMapping("/recurrente")
+    public ResponseEntity<List<String>> obtenerTipoTramiteMasRecurrente(){
+        return new ResponseEntity<>(tipoTramiteService.obtenerTipoTramiteMasRecurrente(), HttpStatus.OK);
+    }
 }

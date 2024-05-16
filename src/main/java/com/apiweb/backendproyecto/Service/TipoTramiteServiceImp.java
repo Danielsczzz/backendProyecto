@@ -29,4 +29,9 @@ public class TipoTramiteServiceImp implements ITipoTramiteService {
         Optional<TipoTramiteModel> tipoTramiteRecuperado = tipoTramiteRepository.findById(id);
         return tipoTramiteRecuperado.orElseThrow(() -> new RecursoNoEncontradoExcep(String.format("No existe un tipo de tramite con el id %d", id)));
     }
+
+    @Override
+    public List<String> obtenerTipoTramiteMasRecurrente() {
+        return tipoTramiteRepository.TipoTramiteMasRecurrente();
+    }
 }

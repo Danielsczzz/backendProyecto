@@ -236,12 +236,15 @@ create view info_solicitud as
 	join tipo_tramite as tp using(idTipo);
 
 -- Obtiene las solicitudes con mas tiempo en proceso o pendiente
-create view solicitudes_mas_demoradas as
-	select t.idTramite, t.descripcion, s.estado, s.fechaGeneracion, DATEDIFF(current_date, s.fechaGeneracion) as diasEnProceso
-	from tramite as t
-	join solicitud as s using(idTramite)
-	where s.estado = 'en proceso' or s.estado = 'pendiente'
-	order by diasEnProceso desc;
+create view tipo_tramite_mas_recurrente as
+    select tp.tipo from tramite
+    join tipo_tramite as tp using(idTipo)
+    group by idTipo
+    having count(idTipo)=(
+        select max(numRegistros)
+        from (select t.idTipo, count(t.idTipo) as numRegistros
+              from tramite as t group by t.idTipo) as subQuery);
+
 -- -----------------------------------------------------------------------------------------------
 
 -- Funciones ------------------------------------------------------------------------------------------------------
