@@ -49,4 +49,10 @@ public class UnidadController {
         String respuestaFinal = String.format("%s \n%s", respuestaUnidad, respuestaTelefonos.toString());
         return new ResponseEntity<String>(respuestaFinal, HttpStatus.OK);
     }
+
+    @GetMapping("/masLucrativa")
+    public ResponseEntity<List<String>> obtenerUnidadMasLucrativa(){
+        return new ResponseEntity<>(unidadService.obtenerUnidadMasLucrativa(), HttpStatus.OK);
+    }
+
 }

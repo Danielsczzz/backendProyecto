@@ -29,4 +29,9 @@ public class UnidadServiceImp implements IUnidadService {
         Optional<UnidadModel> unidadRecuperada = unidadRepository.findById(id);
         return unidadRecuperada.orElseThrow(() -> new RecursoNoEncontradoExcep(String.format("No existe una unidad con el id %d", id)));
     }
+
+    @Override
+    public List<String> obtenerUnidadMasLucrativa() {
+        return unidadRepository.UnidadMasLucrativa();
+    }
 }
