@@ -1,14 +1,8 @@
 package com.apiweb.backendproyecto.Controller;
 
 import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
-import com.apiweb.backendproyecto.Model.TipoTramiteModel;
-import com.apiweb.backendproyecto.Model.TramiteModel;
-import com.apiweb.backendproyecto.Model.UnidadModel;
-import com.apiweb.backendproyecto.Model.UsuarioModel;
-import com.apiweb.backendproyecto.Service.ITipoTramiteService;
-import com.apiweb.backendproyecto.Service.ITramiteService;
-import com.apiweb.backendproyecto.Service.IUnidadService;
-import com.apiweb.backendproyecto.Service.IUsuarioService;
+import com.apiweb.backendproyecto.Model.*;
+import com.apiweb.backendproyecto.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +17,7 @@ public class TramiteController {
     @Autowired ITipoTramiteService tipoTramiteService;
     @Autowired IUnidadService unidadService;
     @Autowired IUsuarioService usuarioService;
+    @Autowired IDocumentoService documentoService;
 
     @GetMapping("/")
     public ResponseEntity<List<TramiteModel>> obtenerTramites(){
@@ -44,6 +39,31 @@ public class TramiteController {
             }
             return new ResponseEntity<>(tramiteService.crearTramite(tramite), HttpStatus.OK);
         } catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/adicionarDocumentos/")
+    public ResponseEntity<String> adicionarDocumentos(@PathVariable Integer id, @RequestBody List<DocumentoModel> listaDocumentos) {
+        try {
+            TramiteModel tramite = tramiteService.obtenerTramitePorId(id);
+            if(tramite== null){
+                throw new RecursoNoEncontradoExcep("No se encontro el tramite con el id "+id);
+            }
+            if (listaDocumentos == null && listaDocumentos.isEmpty()) {
+                throw new RecursoNoEncontradoExcep("No se brindo informacion de los idiomas");
+            }
+            StringBuilder respuestaDocumentos = new StringBuilder();
+            for (DocumentoModel data : listaDocumentos) {
+                DocumentoModel documento = new DocumentoModel();
+                documento.setArchivoURL(data.getArchivoURL());
+                documento.setEstado(data.getEstado());
+                documento.setIdTramite(tramite);
+                String respuestaDocumento = documentoService.crearDocumento(documento);
+                respuestaDocumentos.append(String.format("%s\n", respuestaDocumento));
+            }
+            return new ResponseEntity<>(respuestaDocumentos.toString().trim(), HttpStatus.OK);
+        }  catch (RecursoNoEncontradoExcep e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
