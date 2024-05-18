@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,10 @@ public class UsuarioServiceImp implements IUsuarioService{
     public UsuarioModel obtenerUsuarioPorId(Integer id) {
         Optional<UsuarioModel> usuarioRecuperado = usuarioRepository.findById(id);
         return usuarioRecuperado.orElseThrow(() -> new RecursoNoEncontradoExcep(String.format("No existe un usuario con el id %d", id)));
+    }
+
+    @Override
+    public List<Map<String, Integer>> obtenerUsuarioConMasSolicitudes() {
+        return usuarioRepository.UsuarioConMasSolicitudes();
     }
 }

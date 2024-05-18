@@ -49,6 +49,10 @@ public class UsuarioController {
         }
         String respuestaFinal = String.format("%s \n%s", respuestaUsuario, respuestaTelefonos.toString());
         return new ResponseEntity<String>(respuestaFinal, HttpStatus.OK);
+    }
 
+    @GetMapping("/masSolicitudes")
+    public ResponseEntity<List<Map<String, Integer>>> obtenerUsuarioConMasSolicitudes(){
+        return new ResponseEntity<>(usuarioService.obtenerUsuarioConMasSolicitudes(), HttpStatus.OK);
     }
 }
