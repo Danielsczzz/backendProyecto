@@ -51,7 +51,7 @@ public class UnidadController {
     }
 
     @GetMapping("/masLucrativa")
-    public ResponseEntity<List<String>> obtenerUnidadMasLucrativa(){
+    public ResponseEntity<List<Map<String, Double>>> obtenerUnidadMasLucrativa(){
         return new ResponseEntity<>(unidadService.obtenerUnidadMasLucrativa(), HttpStatus.OK);
     }
 

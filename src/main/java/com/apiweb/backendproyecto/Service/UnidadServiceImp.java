@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,7 @@ public class UnidadServiceImp implements IUnidadService {
     }
 
     @Override
-    public List<String> obtenerUnidadMasLucrativa() {
+    public List<Map<String, Double>> obtenerUnidadMasLucrativa() {
         return unidadRepository.UnidadMasLucrativa();
     }
 }

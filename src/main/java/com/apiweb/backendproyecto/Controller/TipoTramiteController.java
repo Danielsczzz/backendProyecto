@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apirest/tipoTramite")
@@ -26,7 +27,7 @@ public class TipoTramiteController {
     }
 
     @GetMapping("/recurrente")
-    public ResponseEntity<List<String>> obtenerTipoTramiteMasRecurrente(){
+    public ResponseEntity<List<Map<String, Integer>>> obtenerTipoTramiteMasRecurrente(){
         return new ResponseEntity<>(tipoTramiteService.obtenerTipoTramiteMasRecurrente(), HttpStatus.OK);
     }
 }
