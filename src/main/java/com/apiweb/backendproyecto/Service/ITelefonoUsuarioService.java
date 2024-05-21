@@ -1,10 +1,11 @@
 package com.apiweb.backendproyecto.Service;
 
 import com.apiweb.backendproyecto.Model.TelefonoUsuarioModel;
+import com.apiweb.backendproyecto.Model.UsuarioModel;
 
 import java.util.List;
 
 public interface ITelefonoUsuarioService {
-    List<TelefonoUsuarioModel> obtenerTelefonoUsuario();
     String crearTelefonoUsuario(TelefonoUsuarioModel telefonoUsuario);
+    List<TelefonoUsuarioModel> obtenerTelefonosDeUsuario(UsuarioModel usuario);
 }

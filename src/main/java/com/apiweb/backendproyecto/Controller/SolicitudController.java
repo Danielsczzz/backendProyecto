@@ -20,6 +20,7 @@ public class SolicitudController {
     @Autowired IUsuarioService usuarioService;
     @Autowired IAdjuntoService adjuntoService;
     @Autowired IReciboService reciboService;
+    @Autowired IComentarioService comentarioService;
 
 
     @GetMapping("/")
@@ -45,8 +46,8 @@ public class SolicitudController {
         }
     }
 
-    @PostMapping("/{id}/crearAdjuntos")
-    public ResponseEntity<String> crearAdjuntosSolicitud(@Param("id") Integer id, @RequestBody List<AdjuntoModel> adjuntos) {
+    @PostMapping("/{id}/adjuntos")
+    public ResponseEntity<String> crearAdjuntosSolicitud(@PathVariable int id, @RequestBody List<AdjuntoModel> adjuntos) {
         try {
             SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
 
@@ -56,7 +57,7 @@ public class SolicitudController {
             StringBuilder respuestaAdjuntos = new StringBuilder();
             for (AdjuntoModel data : adjuntos) {
                 AdjuntoModel adjunto = new AdjuntoModel();
-                adjunto.setDocumentoURl(data.getDocumentoURl());
+                adjunto.setDocumentoURL(data.getDocumentoURL());
                 adjunto.setTipo(data.getTipo());
                 adjunto.setIdSolicitud(solicitud);
                 String respuestaAdjunto = adjuntoService.crearAdjunto(adjunto);
@@ -64,6 +65,72 @@ public class SolicitudController {
             }
             return new ResponseEntity<>(respuestaAdjuntos.toString(), HttpStatus.OK);
         } catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/adjuntos")
+    public ResponseEntity<List<AdjuntoModel>> obtenerAdjuntosDeSolicitud(@PathVariable Integer id) {
+        try {
+            SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
+            if( solicitud == null) {
+                throw new RecursoNoEncontradoExcep("No se encontro una solicitud con este id" + id);
+            }
+            return new ResponseEntity<>(adjuntoService.obtenerAdjuntosDeSolicitud(solicitud), HttpStatus.OK);
+        } catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PostMapping("/{id}/comentarios")
+    public ResponseEntity<String> crearComentario (@PathVariable int id, @RequestBody ComentarioModel comentario) {
+        try {
+            SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
+            if (solicitud == null) {
+                throw new RecursoNoEncontradoExcep("No se encontro una solicitud con el id" + id);
+            }
+            comentario.setIdSolicitud(solicitud);
+            return new ResponseEntity<>(comentarioService.crearComentario(comentario), HttpStatus.OK);
+        } catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());}
+    }
+
+    @GetMapping("/{id}/comentarios")
+    public ResponseEntity<List<ComentarioModel>> obtenerComentariosDeSolicitud(@PathVariable Integer id) {
+        try {
+            SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
+            if(solicitud == null) {
+                throw new RecursoNoEncontradoExcep("No se encontro una solicitud con este id" + id);
+            }
+            return new ResponseEntity<>(comentarioService.obtenerComentariosDeSolicitud(solicitud), HttpStatus.OK);
+        } catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PostMapping("/{id}/recibo")
+    public ResponseEntity<String> crearRecibo(@PathVariable int id, @RequestBody ReciboModel recibo) {
+        try {
+            SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
+            if(solicitud == null) {
+                throw new RecursoNoEncontradoExcep(String.format("No existe una solicitud con el id %s", recibo.getIdSolicitud()));
+            }
+            recibo.setIdSolicitud(solicitud);
+            return new ResponseEntity<>(reciboService.crearRecibo(recibo), HttpStatus.OK);
+        } catch(RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/recibos")
+    public ResponseEntity<?> obtenerRecibosDeSolicitud(@PathVariable int id){
+        try {
+            SolicitudModel solicitud = solicitudService.obtenerSolicitudPorId(id);
+            if (solicitud == null) {
+                throw new RecursoNoEncontradoExcep("No existe una solicitud con el id " + id);
+            }
+            return new ResponseEntity<>(reciboService.obtenerReciboDeSolicitud(solicitud), HttpStatus.OK);
+        } catch(RecursoNoEncontradoExcep e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

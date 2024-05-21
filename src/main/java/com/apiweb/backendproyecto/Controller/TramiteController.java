@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.Document;
 import java.util.List;
 
 @RestController
@@ -64,6 +65,19 @@ public class TramiteController {
             }
             return new ResponseEntity<>(respuestaDocumentos.toString().trim(), HttpStatus.OK);
         }  catch (RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/documentos")
+    public ResponseEntity<?> obtenerDocumentosDeTramite(@PathVariable Integer id) {
+        try {
+            TramiteModel tramite = tramiteService.obtenerTramitePorId(id);
+            if (tramite == null) {
+                throw new RecursoNoEncontradoExcep("No se encontro un tramite con este id" + id);
+            }
+            return new ResponseEntity<>(documentoService.obtenerDocumentosDeTramite(tramite), HttpStatus.OK);
+        } catch (RecursoNoEncontradoExcep e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

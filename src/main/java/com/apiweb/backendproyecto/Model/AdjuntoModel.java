@@ -17,7 +17,7 @@ public class AdjuntoModel {
     private Integer idAdjunto;
 
     @Column(nullable = false)
-    private String documentoURl;
+    private String documentoURL;
 
     @Column(name = "tipo", nullable = false)
     @Enumerated(EnumType.STRING)

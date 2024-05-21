@@ -1,7 +1,9 @@
 package com.apiweb.backendproyecto.Controller;
 
 import com.apiweb.backendproyecto.DTO.UsuarioDTO;
+import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
 import com.apiweb.backendproyecto.Model.TelefonoUsuarioModel;
+import com.apiweb.backendproyecto.Model.UnidadModel;
 import com.apiweb.backendproyecto.Model.UsuarioModel;
 import com.apiweb.backendproyecto.Service.ITelefonoUsuarioService;
 import com.apiweb.backendproyecto.Service.IUsuarioService;
@@ -49,6 +51,19 @@ public class UsuarioController {
         }
         String respuestaFinal = String.format("%s \n%s", respuestaUsuario, respuestaTelefonos.toString());
         return new ResponseEntity<String>(respuestaFinal, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/telefonos")
+    public ResponseEntity<?> obtenerUnidadTelefonos(@PathVariable int id){
+        try {
+            UsuarioModel usuario = usuarioService.obtenerUsuarioPorId(id);
+            if (usuario == null) {
+                throw new RecursoNoEncontradoExcep("No existe unidad con el id " + id);
+            }
+            return new ResponseEntity<>(telefonoUsuarioService.obtenerTelefonosDeUsuario(usuario), HttpStatus.OK);
+        } catch(RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/masSolicitudes")

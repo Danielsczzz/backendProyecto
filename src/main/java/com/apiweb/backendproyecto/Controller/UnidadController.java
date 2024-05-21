@@ -1,6 +1,7 @@
 package com.apiweb.backendproyecto.Controller;
 
 import com.apiweb.backendproyecto.DTO.UnidadDTO;
+import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
 import com.apiweb.backendproyecto.Model.TelefonoUnidadModel;
 import com.apiweb.backendproyecto.Model.UnidadModel;
 import com.apiweb.backendproyecto.Service.ITelefonoUnidadService;
@@ -53,6 +54,19 @@ public class UnidadController {
     @GetMapping("/masLucrativa")
     public ResponseEntity<List<Map<String, Double>>> obtenerUnidadMasLucrativa(){
         return new ResponseEntity<>(unidadService.obtenerUnidadMasLucrativa(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/telefonos")
+    public ResponseEntity<?> obtenerUnidadTelefonos(@PathVariable int id){
+        try {
+            UnidadModel unidad = unidadService.obtenerUnidadPorId(id);
+            if (unidad == null) {
+                throw new RecursoNoEncontradoExcep("No existe una unidad con el id " + id);
+            }
+            return new ResponseEntity<>(telefonoUnidadService.obtenerTelefonosDeUnidad(unidad), HttpStatus.OK);
+        } catch(RecursoNoEncontradoExcep e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }

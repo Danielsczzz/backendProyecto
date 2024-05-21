@@ -16,6 +16,6 @@ public class TelefonoUsuarioModel {
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
-    private UsuarioModel IdUsuario;
+    private UsuarioModel idUsuario;
 
 }

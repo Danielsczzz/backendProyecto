@@ -1,6 +1,7 @@
 package com.apiweb.backendproyecto.Service;
 
 import com.apiweb.backendproyecto.Model.DocumentoModel;
+import com.apiweb.backendproyecto.Model.TramiteModel;
 import com.apiweb.backendproyecto.Repository.IDocumentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,10 @@ public class DocumentoServiceImp implements IDocumentoService {
     public String crearDocumento(DocumentoModel documento) {
         documentoRepository.save(documento);
         return String.format("El documento %s ha sido creado correctamente", documento.getArchivoURL());
+    }
+
+    @Override
+    public List<DocumentoModel> obtenerDocumentosDeTramite(TramiteModel tramiteModel) {
+        return documentoRepository.findByIdTramite(tramiteModel);
     }
 }
