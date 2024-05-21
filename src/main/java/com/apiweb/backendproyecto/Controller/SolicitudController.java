@@ -4,7 +4,6 @@ import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
 import com.apiweb.backendproyecto.Model.*;
 import com.apiweb.backendproyecto.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

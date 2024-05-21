@@ -1,9 +1,7 @@
 package com.apiweb.backendproyecto.Controller;
 
-import com.apiweb.backendproyecto.DTO.ReporteUsuarioDTO;
 import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
 import com.apiweb.backendproyecto.Model.UsuarioModel;
-import com.apiweb.backendproyecto.Repository.IUsuarioRepository;
 import com.apiweb.backendproyecto.Service.IConsultasService;
 import com.apiweb.backendproyecto.Service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

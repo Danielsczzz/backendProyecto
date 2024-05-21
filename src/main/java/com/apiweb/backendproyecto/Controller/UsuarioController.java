@@ -3,7 +3,6 @@ package com.apiweb.backendproyecto.Controller;
 import com.apiweb.backendproyecto.DTO.UsuarioDTO;
 import com.apiweb.backendproyecto.Exception.RecursoNoEncontradoExcep;
 import com.apiweb.backendproyecto.Model.TelefonoUsuarioModel;
-import com.apiweb.backendproyecto.Model.UnidadModel;
 import com.apiweb.backendproyecto.Model.UsuarioModel;
 import com.apiweb.backendproyecto.Service.ITelefonoUsuarioService;
 import com.apiweb.backendproyecto.Service.IUsuarioService;

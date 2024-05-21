@@ -1,7 +1,5 @@
 package com.apiweb.backendproyecto.Service;
 
-import com.apiweb.backendproyecto.DTO.ReporteUsuarioDTO;
-import com.apiweb.backendproyecto.Model.UsuarioModel;
 import com.apiweb.backendproyecto.Repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
