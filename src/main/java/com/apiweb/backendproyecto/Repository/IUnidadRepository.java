@@ -7,17 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Holi soy la interfaz
- *
- */
 
 public interface IUnidadRepository extends JpaRepository<UnidadModel, Integer> {
 
     /**
      * Metodo que obtiene la unidad que mas dinero genera
      *
-     *@return      Retorna Map<String, Double> donde el String es el nombre de la unidad y el Double es el monto.
+     *@return Retorna Map<String, Double> donde el String es el nombre de la unidad y el Double es el monto.
      */
     @Query(value = "select u.nombre, sum(t.costo) as monto from tramite as t " +
             "join unidad as u using(idUnidad) " +

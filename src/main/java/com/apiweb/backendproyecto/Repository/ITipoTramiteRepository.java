@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ITipoTramiteRepository extends JpaRepository<TipoTramiteModel, Integer> {
+    /**
+     * Consulta nativa en la bd, devuelve el tipo de tramite mas recurrente.
+     *
+     *@return Retorna una lista de Map<String, Integer> donde el String es el tipo de tramite y el Integer es el numero de tramites con este tipo.
+     */
     @Query (value = "select tp.tipo, count(idTipo) as num_registros from tramite " +
             "join tipo_tramite as tp using(idTipo) " +
             "group by idTipo " +
