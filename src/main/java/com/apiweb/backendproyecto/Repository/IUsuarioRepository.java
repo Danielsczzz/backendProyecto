@@ -34,7 +34,7 @@ public interface IUsuarioRepository extends JpaRepository<UsuarioModel, Integer>
     @Query(value = "select nombre, correo, profesion " +
             "from usuario where idUsuario=:usuarioId",
             nativeQuery = true)
-    Object[] infoUsuario(@Param("usuarioId") int usuarioId);
+    List<Object[]> infoUsuario(@Param("usuarioId") int usuarioId);
 
     /**
      * Consulta nativa en la bd,
@@ -48,7 +48,7 @@ public interface IUsuarioRepository extends JpaRepository<UsuarioModel, Integer>
             "where u.idUsuario =:usuarioId " +
             "group by s.idUsuario",
             nativeQuery = true)
-    Object[] cantidadSolicitudesDeUsuario(@Param("usuarioId") int usuarioId);
+    Object cantidadSolicitudesDeUsuario(@Param("usuarioId") int usuarioId);
 
     /**
      * Consulta nativa en la bd, cuanto ha facturado en solicitudes el usuario.
@@ -62,6 +62,6 @@ public interface IUsuarioRepository extends JpaRepository<UsuarioModel, Integer>
             "where u.idUsuario =:usuarioId " +
             "group by u.idUsuario",
             nativeQuery = true)
-    Object[] cantidadFacturadoDeUsuario(@Param("usuarioId") int usuarioId);
+    Object cantidadFacturadoDeUsuario(@Param("usuarioId") int usuarioId);
 
 }

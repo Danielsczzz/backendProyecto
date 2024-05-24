@@ -12,11 +12,18 @@ public class ConsultasServiceImp implements IConsultasService {
     @Autowired IUsuarioRepository usuarioRepository;
 
     @Override
-    public List<Object[]> reporteUsuario(int idUsuario) {
-        List<Object[]> reporteUsuario = new ArrayList<>();
-        reporteUsuario.add(usuarioRepository.infoUsuario(idUsuario));
-        reporteUsuario.add(usuarioRepository.cantidadSolicitudesDeUsuario(idUsuario));
-        reporteUsuario.add(usuarioRepository.cantidadFacturadoDeUsuario(idUsuario));
-        return reporteUsuario;
+    public List<Object[]> infoUsuario(int idUsuario) {
+        return usuarioRepository.infoUsuario(idUsuario);
     }
+
+    @Override
+    public Object cantidadSolicitudesDeUsuario(int idUsuario) {
+        return usuarioRepository.cantidadSolicitudesDeUsuario(idUsuario);
+    }
+
+    @Override
+    public Object cantidadDineroFacturadoDeUsuario(int idUsuario) {
+        return usuarioRepository.cantidadFacturadoDeUsuario(idUsuario);
+    }
+
 }
